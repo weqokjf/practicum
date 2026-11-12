@@ -24,8 +24,11 @@ func parsePackage(data string) (int, time.Duration, error) {
 	}
 
 	steps, err := strconv.Atoi(parts[0])
-	if err != nil || steps <= 0 {
-		return 0, 0, errors.New("неверный формат кол-ва шагов")
+	if err != nil {
+		return 0, 0, fmt.Errorf("invalid steps format: %w", err)
+	}
+	if steps <= 0 {
+		return 0, 0, fmt.Errorf("steps must be positive")
 	}
 
 	duration, err := time.ParseDuration(parts[1])
